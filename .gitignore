@@ -1,0 +1,34 @@
+# intellij idea
+*.log
+*.iml
+*.ipr
+*.iws
+.idea
+.idea/
+
+# metals/vscode
+.bloop/
+.metals/
+
+# sbt
+bin/
+project/
+target/
+build/
+.sbtopts
+
+# other
+info/
+*.old
+*.old/
+test-output/
+.history
+.scala_dependencies
+.cache
+.cache-main
+.directory
+
+
+#general
+*.class
+logs
