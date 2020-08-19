@@ -9,15 +9,15 @@ The goal is twofold :
 - make a strong distinction between 2 types of application errors : system faults and domain errors
 - overcoming the current lack of union type in scala 2 and still have error types which are as **expressive** and developer friendly as possible
 
-In order to have expressive error types, I will use type bound and let the compiler infers error composition type with a LUB type bound (which hopefully should be developer friendly).
+In order to have expressive error types, I will use type bound and let the compiler infers error composition type with a LUB type (which hopefully should be developer friendly).
 
 Definition : 'LUB' is the acronym for Least Upper Bounds
 
 # Sell me the stuff
 
 ## Warning and caveats
-IntelliJ internal type inference engine does not always infer the proper type bound.
-Using Metals (with VSCode in my case) will give the proper type and so far it works as expected (but is a bit too verbose as it uses fully package qualified types).
+IntelliJ internal scala type inference engine does not always infer the proper type bound.
+Using Metals (with VSCode in my case) gives the proper type hint and so far it works as expected (but is a bit too verbose as it uses fully package qualified types).
 
 Unfortunately, exhaustivity checking is lost because an upper type bound doesn't give a finite set of types (but Union type in Scala 3 should !).
 
@@ -73,9 +73,9 @@ val program: ZIO[Any, FaultOr[Exception, _ >: BizzError1 with BizzError2 with Bi
 Take a look at the test cases for a more complete coverage of all the features.
 
 ## Installation and usage
-To publish locally the project, go to the project directory and type ```sbt publishLocal```
+To publish the project locally, go to the project directory and type ```sbt publishLocal```
 
-To import the project in sbt, add : ```"ch.scalajos" %% "faultor" % "1.0-SNAPSHOT"``` in your sbt project dependencies
+To import the project in sbt, add : ```"ch.scalajos" %% "faultor" % "1.0-SNAPSHOT"``` in your sbt project dependencies.
 
 The library has only one transitive dependency on (core) ZIO 1.0.0.
 
@@ -99,7 +99,11 @@ One can retry the action but if the database is still down, the only thing that 
 **Domain Errors** belongs to the business domain, **System Faults** are purely technical and should not be mixed with business domain concerns.
 
 
-These 2 categories of errors are strictly exclusive : code can only produce a system fault **[EXCLUSIVE] OR** a domain error.
+**Domain Errors** usually carry a business context to interpret the error, they don't need a stacktrace ! They should be based on simple Algebraic Data Type.
+
+**System Faults** normally don't have a business context need, they must have a stacktrace: they are based on Java exceptions. 
+
+These 2 categories of errors are strictly exclusive : code can only produce a system fault **OR [EXCLUSIVE]** a domain error.
 
 This is the '*raison d'etre*' of the FaultOr data type.
 
@@ -113,7 +117,7 @@ With this library it can now be used to carry on the notions of both system faul
 I don't know yet. It feels so far OK for me.
 My personal experience tends to show that :
 - I prefer to deal with normal result and exceptional domain errors in distinct code path and using ZIO error channel makes it clearly distinct
-- exceptional scenarii (and their associated domain errors) tend to evolve more often than normal scenario, a clear separation is easier to manage and reduce or isolate complexity pollution
+- exceptional scenario (and their associated domain errors) tend to evolve more often than nominal scenario, a clear separation make them easier to manage and reduce or isolate complexity pollution
 
 Another way to handle domain error would be to not use the ZIO error channel at all :
 
@@ -172,8 +176,9 @@ Persistence Layer  ----- Business Service Layer ----- Web Services Layer
                                      |           (or)
                                      v (or)
                            [Domain Error Handler]
+                         handle alternative scenario
 ```
-As **Domain Errors** are translated into other Domain Errors when they cross layers, it's important to not lose the error cause :
+As **Domain Errors** are translated into other Domain Errors when they cross layers, it's important to not lose the initial error cause :
 usually one needs to keep track of the initial domain error (if there is one).
 
 **Domain Errors could be chained** to other Domain Errors.
@@ -224,6 +229,8 @@ Any exception inheriting from ```Throwable``` will represent a System Fault :
 ```final class MyFault(msg: String) extends Exception(msg)```
 
 A System Fault will 'bubble up' through the callers stack, up to the initial root call which should be in charge of the fault handling (usually through a zio fold or foldM).
+
+System faults should be infrequent : the stacktrace creation cost should not be a burden in this case.
 
 ## Expected Domain Errors
 it can be :
