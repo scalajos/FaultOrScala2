@@ -1,7 +1,7 @@
-package org.scalajos.precise.testerrors
+package org.scalajos.faultor.testerrors
 
-import org.scalajos.precise.errors.{ChainableDomainError, Outcome, SingleDomainError}
-import org.scalajos.precise.errors.either.{Either2Error, Either3Error, Either4Error, Either5Error}
+import org.scalajos.faultor.errors.{ChainableDomainError, Outcome, SingleDomainError}
+import org.scalajos.faultor.errors.either.{Either2Error, Either3Error, Either4Error, Either5Error}
 import zio.{Has, Task, ULayer, ZIO}
 
 object services {

@@ -1,4 +1,4 @@
-package org.scalajos.precise
+package org.scalajos.faultor
 
 import zio.{UIO, ZIO}
 
@@ -52,12 +52,12 @@ object errors {
     }
 
     object Either2Error {
-      private[precise] final case class one[A <: SingleDomainError, B <: SingleDomainError](value: A) extends Either2Error[A, B] {
+      private[faultor] final case class one[A <: SingleDomainError, B <: SingleDomainError](value: A) extends Either2Error[A, B] {
         def fold[T](foldFirst: A => T, foldSecond: B => T): T = foldFirst(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1): A1 = mapFirst(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1): Either2Error[A1, B1] = one[A1, B1](mapFirst(value))
       }
-      private[precise] final case class two[A <: SingleDomainError, B <: SingleDomainError](value: B) extends Either2Error[A, B] {
+      private[faultor] final case class two[A <: SingleDomainError, B <: SingleDomainError](value: B) extends Either2Error[A, B] {
         def fold[T](foldFirst: A => T, foldSecond: B => T): T = foldSecond(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1): A1 = mapSecond(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1): Either2Error[A1, B1] = two(mapSecond(value))
@@ -75,19 +75,19 @@ object errors {
     }
 
     object Either3Error {
-      private[precise] final case class one[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError](value: A) extends Either3Error[A, B, C] {
+      private[faultor] final case class one[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError](value: A) extends Either3Error[A, B, C] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T): T = foldFirst(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1): A1 = mapFirst(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1]): Either2Error[A1, B1] = mapFirst(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1): Either3Error[A1, B1, C1] = one(mapFirst(value))
       }
-      private[precise] final case class two[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError](value: B) extends Either3Error[A, B, C] {
+      private[faultor] final case class two[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError](value: B) extends Either3Error[A, B, C] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T): T = foldSecond(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1): A1 = mapSecond(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1]): Either2Error[A1, B1] = mapSecond(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1): Either3Error[A1, B1, C1] = two(mapSecond(value))
       }
-      private[precise] final case class three[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError](value: C) extends Either3Error[A, B, C] {
+      private[faultor] final case class three[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError](value: C) extends Either3Error[A, B, C] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T): T = foldThird(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1): A1 = mapThird(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1]): Either2Error[A1, B1] = mapThird(value)
@@ -108,28 +108,28 @@ object errors {
     }
 
     object Either4Error {
-      private[precise] final case class one[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: A) extends Either4Error[A, B, C, D] {
+      private[faultor] final case class one[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: A) extends Either4Error[A, B, C, D] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T): T = foldFirst(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1): A1 = mapFirst(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1]): Either2Error[A1, B1] = mapFirst(value)
         def overjectionTo3[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError](mapFirst: A => Either3Error[A1, B1, C1], mapSecond: B => Either3Error[A1, B1, C1], mapThird: C => Either3Error[A1, B1, C1], mapFourth: D => Either3Error[A1, B1, C1]): Either3Error[A1, B1, C1] = mapFirst(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1, mapFourth: D => D1): Either4Error[A1, B1, C1, D1] = one(mapFirst(value))
       }
-      private[precise] final case class two[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: B) extends Either4Error[A, B, C, D] {
+      private[faultor] final case class two[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: B) extends Either4Error[A, B, C, D] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T): T = foldSecond(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1): A1 = mapSecond(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1]): Either2Error[A1, B1] = mapSecond(value)
         def overjectionTo3[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError](mapFirst: A => Either3Error[A1, B1, C1], mapSecond: B => Either3Error[A1, B1, C1], mapThird: C => Either3Error[A1, B1, C1], mapFourth: D => Either3Error[A1, B1, C1]): Either3Error[A1, B1, C1] = mapSecond(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1, mapFourth: D => D1): Either4Error[A1, B1, C1, D1] = two(mapSecond(value))
       }
-      private[precise] final case class three[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: C) extends Either4Error[A, B, C, D] {
+      private[faultor] final case class three[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: C) extends Either4Error[A, B, C, D] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T): T = foldThird(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1): A1 = mapThird(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1]): Either2Error[A1, B1] = mapThird(value)
         def overjectionTo3[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError](mapFirst: A => Either3Error[A1, B1, C1], mapSecond: B => Either3Error[A1, B1, C1], mapThird: C => Either3Error[A1, B1, C1], mapFourth: D => Either3Error[A1, B1, C1]): Either3Error[A1, B1, C1] = mapThird(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1, mapFourth: D => D1): Either4Error[A1, B1, C1, D1] = three(mapThird(value))
       }
-      private[precise] final case class four[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: D) extends Either4Error[A, B, C, D] {
+      private[faultor] final case class four[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError](value: D) extends Either4Error[A, B, C, D] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T): T = foldFourth(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1): A1 = mapFourth(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1]): Either2Error[A1, B1] = mapFourth(value)
@@ -153,7 +153,7 @@ object errors {
     }
 
     object Either5Error {
-      private[precise] final case class one[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: A) extends Either5Error[A, B, C, D, E] {
+      private[faultor] final case class one[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: A) extends Either5Error[A, B, C, D, E] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T, foldFifth: E => T): T = foldFirst(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1, mapFifth: E => A1): A1 = mapFirst(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1], mapFifth: E => Either2Error[A1, B1]): Either2Error[A1, B1] = mapFirst(value)
@@ -161,7 +161,7 @@ object errors {
         def overjectionTo4[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError](mapFirst: A => Either4Error[A1, B1, C1, D1], mapSecond: B => Either4Error[A1, B1, C1, D1], mapThird: C => Either4Error[A1, B1, C1, D1], mapFourth: D => Either4Error[A1, B1, C1, D1], mapFifth: E => Either4Error[A1, B1, C1, D1]): Either4Error[A1, B1, C1, D1] = mapFirst(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError, E1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1, mapFourth: D => D1, mapFifth: E => E1): Either5Error[A1, B1, C1, D1, E1] = one(mapFirst(value))
       }
-      private[precise] final case class two[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: B) extends Either5Error[A, B, C, D, E] {
+      private[faultor] final case class two[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: B) extends Either5Error[A, B, C, D, E] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T, foldFifth: E => T): T = foldSecond(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1, mapFifth: E => A1): A1 = mapSecond(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1], mapFifth: E => Either2Error[A1, B1]): Either2Error[A1, B1] = mapSecond(value)
@@ -169,7 +169,7 @@ object errors {
         def overjectionTo4[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError](mapFirst: A => Either4Error[A1, B1, C1, D1], mapSecond: B => Either4Error[A1, B1, C1, D1], mapThird: C => Either4Error[A1, B1, C1, D1], mapFourth: D => Either4Error[A1, B1, C1, D1], mapFifth: E => Either4Error[A1, B1, C1, D1]): Either4Error[A1, B1, C1, D1] = mapSecond(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError, E1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1, mapFourth: D => D1, mapFifth: E => E1): Either5Error[A1, B1, C1, D1, E1] = two(mapSecond(value))
       }
-      private[precise] final case class three[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: C) extends Either5Error[A, B, C, D, E] {
+      private[faultor] final case class three[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: C) extends Either5Error[A, B, C, D, E] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T, foldFifth: E => T): T = foldThird(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1, mapFifth: E => A1): A1 = mapThird(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1], mapFifth: E => Either2Error[A1, B1]): Either2Error[A1, B1] = mapThird(value)
@@ -177,7 +177,7 @@ object errors {
         def overjectionTo4[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError](mapFirst: A => Either4Error[A1, B1, C1, D1], mapSecond: B => Either4Error[A1, B1, C1, D1], mapThird: C => Either4Error[A1, B1, C1, D1], mapFourth: D => Either4Error[A1, B1, C1, D1], mapFifth: E => Either4Error[A1, B1, C1, D1]): Either4Error[A1, B1, C1, D1] = mapThird(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError, E1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1, mapFourth: D => D1, mapFifth: E => E1): Either5Error[A1, B1, C1, D1, E1] = three(mapThird(value))
       }
-      private[precise] final case class four[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: D) extends Either5Error[A, B, C, D, E] {
+      private[faultor] final case class four[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: D) extends Either5Error[A, B, C, D, E] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T, foldFifth: E => T): T = foldFourth(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1, mapFifth: E => A1): A1 = mapFourth(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1], mapFifth: E => Either2Error[A1, B1]): Either2Error[A1, B1] = mapFourth(value)
@@ -185,7 +185,7 @@ object errors {
         def overjectionTo4[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError](mapFirst: A => Either4Error[A1, B1, C1, D1], mapSecond: B => Either4Error[A1, B1, C1, D1], mapThird: C => Either4Error[A1, B1, C1, D1], mapFourth: D => Either4Error[A1, B1, C1, D1], mapFifth: E => Either4Error[A1, B1, C1, D1]): Either4Error[A1, B1, C1, D1] = mapFourth(value)
         def bijection[A1 <: SingleDomainError, B1 <: SingleDomainError, C1 <: SingleDomainError, D1 <: SingleDomainError, E1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => B1, mapThird: C => C1, mapFourth: D => D1, mapFifth: E => E1): Either5Error[A1, B1, C1, D1, E1] = four(mapFourth(value))
       }
-      private[precise] final case class five[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: E) extends Either5Error[A, B, C, D, E] {
+      private[faultor] final case class five[A <: SingleDomainError, B <: SingleDomainError, C <: SingleDomainError, D <: SingleDomainError, E <: SingleDomainError](value: E) extends Either5Error[A, B, C, D, E] {
         def fold[T](foldFirst: A => T, foldSecond: B => T, foldThird: C => T, foldFourth: D => T, foldFifth: E => T): T = foldFifth(value)
         def overjectionTo1[A1 <: SingleDomainError](mapFirst: A => A1, mapSecond: B => A1, mapThird: C => A1, mapFourth: D => A1, mapFifth: E => A1): A1 = mapFifth(value)
         def overjectionTo2[A1 <: SingleDomainError, B1 <: SingleDomainError](mapFirst: A => Either2Error[A1, B1], mapSecond: B => Either2Error[A1, B1], mapThird: C => Either2Error[A1, B1], mapFourth: D => Either2Error[A1, B1], mapFifth: E => Either2Error[A1, B1]): Either2Error[A1, B1] = mapFifth(value)

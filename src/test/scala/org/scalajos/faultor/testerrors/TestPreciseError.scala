@@ -1,15 +1,15 @@
-package org.scalajos.precise.testerrors
+package org.scalajos.faultor.testerrors
 
-import org.scalajos.precise.errors.either.{Either2Error, Either3Error, Either4Error, Either5Error}
-import org.scalajos.precise.errors.{Expected, FaultOr, Outcome, SingleDomainError}
-import org.scalajos.precise.errors.syntax._
-import org.scalajos.precise.testerrors.services.A.{ErrorA1, ErrorA2, ErrorA3, ErrorA4, ErrorA5, ExceptionA}
-import org.scalajos.precise.testerrors.services.B.{ErrorB1, ErrorB2, ExceptionB}
-import org.scalajos.precise.testerrors.services.C.{ErrorC1, ErrorC1C2, ErrorC2, ErrorC2C3, ErrorC3, ExceptionC}
-import org.scalajos.precise.testerrors.services.D.{ErrorD1, ErrorD1D2D3, ErrorD2, ErrorD3, ExceptionD}
-import org.scalajos.precise.testerrors.services.E.{ErrorE1E2, ErrorE1E2E3, ErrorE1E2E3E4, ErrorE1E2E3E4E5, ExceptionE}
-import org.scalajos.precise.testerrors.services.F.{ExceptionX, ExceptionY}
-import org.scalajos.precise.testerrors.services.{A, B, C, D, E, F, ZioServicePattern}
+import org.scalajos.faultor.errors.either.{Either2Error, Either3Error, Either4Error, Either5Error}
+import org.scalajos.faultor.errors.{Expected, FaultOr, Outcome, SingleDomainError}
+import org.scalajos.faultor.errors.syntax._
+import org.scalajos.faultor.testerrors.services.A.{ErrorA1, ErrorA2, ErrorA3, ErrorA4, ErrorA5, ExceptionA}
+import org.scalajos.faultor.testerrors.services.B.{ErrorB1, ErrorB2, ExceptionB}
+import org.scalajos.faultor.testerrors.services.C.{ErrorC1, ErrorC1C2, ErrorC2, ErrorC2C3, ErrorC3, ExceptionC}
+import org.scalajos.faultor.testerrors.services.D.{ErrorD1, ErrorD1D2D3, ErrorD2, ErrorD3, ExceptionD}
+import org.scalajos.faultor.testerrors.services.E.{ErrorE1E2, ErrorE1E2E3, ErrorE1E2E3E4, ErrorE1E2E3E4E5, ExceptionE}
+import org.scalajos.faultor.testerrors.services.F.{ExceptionX, ExceptionY}
+import org.scalajos.faultor.testerrors.services.{A, B, C, D, E, F, ZioServicePattern}
 import org.scalatest.flatspec.AnyFlatSpec
 import zio.{Has, IO, Task, ZIO}
 
