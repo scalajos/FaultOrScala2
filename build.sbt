@@ -13,7 +13,7 @@ lazy val os: String = Option(System.getProperty("os.name", ""))
   case _           => "linux"
 }
 
-lazy val zioVersion        = "1.0.0"
+lazy val zioVersion        = "1.0.1"
 
 javacOptions ++= Seq("-source", "11", "-target", "11", "-Xlint")
 

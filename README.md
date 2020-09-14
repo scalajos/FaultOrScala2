@@ -5,13 +5,20 @@ Good error management is crucial for software robustness and quality.
  
 This library tries to provide an expressive error management library to the already impressive ZIO library.
 
-The goal is twofold :
+The goal is threefold :
 - make a strong distinction between 2 types of application errors : system faults and domain errors
+- explicitly keep track of both system error and domain error in the ZIO error channel (*) 
 - overcoming the current lack of union type in scala 2 and still have error types which are as **expressive** and developer friendly as possible
 
 In order to have expressive error types, I will use type bound and let the compiler infers error composition type with a LUB type (which hopefully should be developer friendly).
 
 Definition : 'LUB' is the acronym for Least Upper Bounds
+
+(*) IMPORTANT NOTE :
+IN THIS LIBRARY DESIGN, I CHOOSE TO KEEP TRACK OF BOTH SYSTEM AND DOMAIN ERRORS.
+IT'S OFTEN OVERKILL FOR BUSINESS APPLICATIONS : 
+I MADE ANOTHER LIBRARY WHICH WILL ONLY KEEP DOMAIN ERROR IN THE ZIO ERROR CHANNEL, SYSTEM FAULT WILL BE MANAGED AS AN INVISIBLE EXCEPTION SIDE EFFECT
+  
 
 # Sell me the stuff
 

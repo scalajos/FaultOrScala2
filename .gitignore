@@ -9,6 +9,7 @@
 # metals/vscode
 .bloop/
 .metals/
+settings.json
 
 # sbt
 bin/
