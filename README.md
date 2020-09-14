@@ -15,9 +15,9 @@ In order to have expressive error types, I will use type bound and let the compi
 Definition : 'LUB' is the acronym for Least Upper Bounds
 
 (*) IMPORTANT NOTE :
-IN THIS LIBRARY DESIGN, I CHOOSE TO KEEP TRACK OF BOTH SYSTEM AND DOMAIN ERRORS.
+IN THIS LIBRARY DESIGN, I WANTED KEEP TRACK OF BOTH SYSTEM AND DOMAIN ERRORS.
 IT'S OFTEN OVERKILL FOR BUSINESS APPLICATIONS : 
-I MADE ANOTHER LIBRARY WHICH WILL ONLY KEEP DOMAIN ERROR IN THE ZIO ERROR CHANNEL, SYSTEM FAULT WILL BE MANAGED AS AN INVISIBLE EXCEPTION SIDE EFFECT
+I MADE ANOTHER LIBRARY WHICH WILL ONLY KEEP TRACK OF DOMAIN ERRORS IN THE ZIO ERROR CHANNEL, SYSTEM FAULT WILL BE MANAGED AS AN INVISIBLE EXCEPTION SIDE EFFECT
   
 
 # Sell me the stuff
@@ -130,17 +130,10 @@ Another way to handle domain error would be to not use the ZIO error channel at 
 
 - the ZIO error channel would **only** be used for **System faults** and a yet to be defined composite result type (likely to be based on Either or a kind of Outcome type already used in this library) would handle normal result **and** expected domain errors.
 
-I will try to investigate this approach too in another library attempt and see if it makes code simpler than the error channel.
- 
 What I believe to be true in any case is that (technical) System Faults and (business) Domain Errors should not be based on the same error type (Exception) as their use and behaviour is completely different.
 Java is wrong on this subject and Scala has no standard best practice yet.
 
 Feel free to contribute and tell me what you think.
-
-Some crazy/stupid though :
-
-ZIO is based on TriFunctor R, E, A. All errors are managed through the same E channel.
-A quadrifunctor (!!) ```[R (environment), F (fault), E (domain error), A (result)]``` might express a clean separation between system faults and domain errors but it's likely to be a bit excessive and overcomplicated ;-)
 
 # Semantic of System Fault and Domain Error regarding Layers
 
